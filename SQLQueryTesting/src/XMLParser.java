@@ -1,4 +1,4 @@
-package com.murkhies.zombiegame.utils;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -11,6 +11,7 @@ public class XMLParser {
 
 	String path, tagName;
 	Document doc;
+	NodeList nodeList;
 
 	public void build() {
 		try {
@@ -30,17 +31,52 @@ public class XMLParser {
 		this.tagName = tagName;
 	}
 
-	public String getValue(String etiqueta) {
-
-		Node node = doc.getElementsByTagName(tagName).item(0);
-		if (node.getNodeType() == Node.ELEMENT_NODE) {
-			Element element = (Element) node;
-			NodeList llistat= element.getElementsByTagName(etiqueta).item(0).getChildNodes();
-			Node valor = (Node) llistat.item(0);
-			return valor.getNodeValue();
-		}
-		return null;
-
+	public String getTagValue(String etiqueta, Element item) {
+		NodeList llistat = item.getElementsByTagName(etiqueta).item(0)
+				.getChildNodes();
+		Node valor = (Node) llistat.item(0);
+		return valor.getNodeValue();
 	}
 
+	public String getIP(String databaseName) {
+		nodeList = doc.getElementsByTagName(tagName);
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element item = (Element) node;
+				if((getTagValue("name", item).equals(databaseName))){
+					return getTagValue("ip", item);
+				}
+			}
+		}
+		return "";
+	}
+
+	public String getPort(String databaseName) {
+		nodeList = doc.getElementsByTagName(tagName);
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element item = (Element) node;
+				if((getTagValue("name", item).equals(databaseName))){
+					return getTagValue("port", item);
+				}
+			}
+		}
+		return "";
+	}
+
+	public ArrayList<String> getDatabaseNames() {
+		ArrayList<String> result = new ArrayList<String>();
+		nodeList = doc.getElementsByTagName(tagName);
+		result.add("Escull una DB");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element item = (Element) node;
+				result.add(getTagValue("name", item));
+			}
+		}
+		return result;
+	}
 }
