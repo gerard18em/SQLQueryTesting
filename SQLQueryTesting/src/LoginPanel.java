@@ -1,11 +1,9 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -13,10 +11,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.awt.Color;
 
 public class LoginPanel extends JPanel {
-	
+
 	private JTextField txtUser, txtPassword;
 	private JLabel txtIP, txtPort, lblError;
 	private JComboBox cmbDB;
@@ -83,8 +80,13 @@ public class LoginPanel extends JPanel {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				sqt.connection.setConf(txtUser.getText().toString(),
+						txtPassword.getText().toString(), txtIP.getText()
+								.toString(), txtPort.getText().toString(),
+						cmbDB.getSelectedItem().toString());
 				validateUser();
 			}
+
 		});
 		btnLogin.setBounds(121, 239, 89, 23);
 		add(btnLogin);
@@ -114,11 +116,12 @@ public class LoginPanel extends JPanel {
 	}
 
 	public void validateUser() {
-		try {
-			sqt.connection.buildConnection();
-			sqt.changeTo(new QueryPanel(sqt));
-		} catch (Exception e) {
+		if (!sqt.connection.buildConnection()) {
 			lblError.setText("Error de connexió");
+		} else {
+			sqt.changeTo(new QueryPanel(sqt));
+
 		}
+
 	}
 }

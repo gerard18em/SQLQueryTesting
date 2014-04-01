@@ -20,7 +20,7 @@ public class QueryPanel extends JPanel {
 		setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 430, 190);
+		scrollPane.setBounds(10, 11, 351, 190);
 		add(scrollPane);
 		
 		textArea = new JTextArea();
@@ -37,7 +37,7 @@ public class QueryPanel extends JPanel {
 				}
 			}
 		});
-		btnExecute.setBounds(318, 218, 110, 56);
+		btnExecute.setBounds(248, 212, 110, 56);
 		add(btnExecute);
 
 	}

@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class SQLQueryTesting extends JFrame {
-	
+
 	XMLParser parser;
 	ConnectionHandler connection;
 
@@ -27,6 +27,7 @@ public class SQLQueryTesting extends JFrame {
 		add(new LoginPanel(this));
 		setVisible(true);
 		setResizable(false);
+		connection = new ConnectionHandler();
 	}
 
 	public void getXMLConf() {
@@ -35,12 +36,13 @@ public class SQLQueryTesting extends JFrame {
 		parser.build();
 		parser.setTagName("database");
 	}
-	
+
 	public void changeTo(JPanel nextPanel) {
-		removeAll();
-		add(nextPanel);
-		repaint();
+		getContentPane().removeAll();
+		getContentPane().add(nextPanel);
 		revalidate();
+		repaint();
+		
 	}
-	
+
 }
