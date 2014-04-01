@@ -1,31 +1,40 @@
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 
 public class QueryPanel extends JPanel {
-
-	/**
-	 * Create the panel.
-	 */
-	public QueryPanel() {
+	
+	SQLQueryTesting sqt;
+	JTextArea textArea;
+	
+	public QueryPanel(final SQLQueryTesting sqt) {
+		
+		this.sqt = sqt;
+		
 		setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 11, 430, 190);
 		add(scrollPane);
 		
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
 		
 		JButton btnExecute = new JButton("EXECUTA");
 		btnExecute.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				try {
+					sqt.connection.doStatement(textArea.getText().toString());
+					JOptionPane.showMessageDialog(sqt, "Query executed sucefully.");
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(sqt, "A problem ocurred, aborting query.");
+				}
 			}
 		});
 		btnExecute.setBounds(318, 218, 110, 56);

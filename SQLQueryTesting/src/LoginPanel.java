@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import java.awt.Color;
 
 public class LoginPanel extends JPanel {
+	
 	private JTextField txtUser, txtPassword;
 	private JLabel txtIP, txtPort, lblError;
 	private JComboBox cmbDB;
@@ -114,10 +115,10 @@ public class LoginPanel extends JPanel {
 
 	public void validateUser() {
 		try {
-			
-		} catch (SQLException e) {
+			sqt.connection.buildConnection();
+			sqt.changeTo(new QueryPanel(sqt));
+		} catch (Exception e) {
 			lblError.setText("Error de connexió");
-			e.printStackTrace();
 		}
 	}
 }

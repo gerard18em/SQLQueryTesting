@@ -4,12 +4,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConnectionHandler {
+	
 	String userName, password, IP, port, databaseName;
 	Connection connection;
 
 	public ConnectionHandler() {
 
-		
 	}
 
 	public void setConf(String userName, String password, String IP,
@@ -25,12 +25,14 @@ public class ConnectionHandler {
 			new Exception();
 		}
 	}
-	
-	public void doStatement(String query){
-		Statement statement = connection.createStatement();
-		statement
-				.executeUpdate(query);
-		System.out.println("......Taula creada......");
+
+	public void doStatement(String query) {
+		try {
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(query);
+		} catch (SQLException e) {
+			new Exception();
+		}
 	}
 
 }

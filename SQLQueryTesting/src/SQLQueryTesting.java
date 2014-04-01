@@ -1,13 +1,13 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class SQLQueryTesting extends JFrame {
+	
 	XMLParser parser;
+	ConnectionHandler connection;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -21,9 +21,6 @@ public class SQLQueryTesting extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public SQLQueryTesting() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 380, 300);
@@ -38,4 +35,12 @@ public class SQLQueryTesting extends JFrame {
 		parser.build();
 		parser.setTagName("database");
 	}
+	
+	public void changeTo(JPanel nextPanel) {
+		removeAll();
+		add(nextPanel);
+		repaint();
+		revalidate();
+	}
+	
 }
