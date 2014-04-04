@@ -12,6 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * Classe per mostrar el login amb la validació de DB
+ * 
+ * @author Adrià i Gerard
+ * 
+ */
 public class LoginPanel extends JPanel {
 
 	private JTextField txtUser, txtPassword;
@@ -37,6 +43,7 @@ public class LoginPanel extends JPanel {
 		cmbDB.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
+				// Recollim les dades del Port iIP
 				txtIP.setText(sqt.parser.getIP(cmbDB.getSelectedItem()
 						.toString()));
 				txtPort.setText(sqt.parser.getPort(cmbDB.getSelectedItem()
@@ -80,10 +87,12 @@ public class LoginPanel extends JPanel {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// Configurar la connexió amb les dades introduides
 				sqt.connection.setConf(txtUser.getText().toString(),
 						txtPassword.getText().toString(), txtIP.getText()
 								.toString(), txtPort.getText().toString(),
 						cmbDB.getSelectedItem().toString());
+				// Validar Usuari-Psw
 				validateUser();
 			}
 
@@ -115,7 +124,12 @@ public class LoginPanel extends JPanel {
 
 	}
 
+	/**
+	 * Mètode per validar un usuari
+	 */
 	public void validateUser() {
+		// Si la connexió es correcta canvia al panell de consultes SQL, sino,
+		// ens avisa amb un missatge d'error de connexió.
 		if (!sqt.connection.buildConnection()) {
 			lblError.setText("Error de connexió");
 		} else {

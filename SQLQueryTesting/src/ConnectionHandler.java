@@ -3,6 +3,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Classe per realitzar la connexió amb la DB configurada al Login
+ * 
+ * @author Adrià i Gerard
+ * 
+ */
 public class ConnectionHandler {
 
 	String userName, password, IP, port, databaseName;
@@ -21,25 +27,46 @@ public class ConnectionHandler {
 		this.databaseName = databaseName;
 	}
 
+	/**
+	 * Construeix la connexió MySQL
+	 * 
+	 * @return true si la connexió s'ha realitzar correctament (False, en cas
+	 *         contrari)
+	 */
 	public boolean buildConnection() {
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://" + IP + "/"
 					+ databaseName, userName, password);
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
 
-	public void doStatement(String query) {
+	/**
+	 * Mètode per a realitzar la consulta SQL
+	 * 
+	 * @param query
+	 *            consulta a realitzar (SQL)
+	 * @return true si la consulta s'ha realitzar correctament (False, en cas
+	 *             contrari)
+	 */
+	public boolean doStatement(String query) {
 		try {
 			Statement statement = connection.createStatement();
-			statement.executeUpdate(query);
-			// Arreglar, sempre ho realitza encara que no existeixi
+			// Comprovació que comença amb SELECT i ho transforma en minuscula
+			if (query.toLowerCase().startsWith("select")) {
+				if (statement.executeQuery(query) != null) {
+					return true;
+				}
+			} else {
+				if (statement.executeUpdate(query) != 0) {
+					return true;
+				}
+			}
+			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
-			new Exception();
+			return false;
 		}
 	}
 

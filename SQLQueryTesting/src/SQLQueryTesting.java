@@ -3,11 +3,23 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Classe per mostrar la finestra pricipal
+ * 
+ * @author Adrià i Gerard
+ * 
+ */
 public class SQLQueryTesting extends JFrame {
 
 	XMLParser parser;
 	ConnectionHandler connection;
 
+	/**
+	 * Classe principal del programa
+	 * 
+	 * @param args
+	 *            No s'utilitza
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -30,6 +42,8 @@ public class SQLQueryTesting extends JFrame {
 		connection = new ConnectionHandler();
 	}
 
+	// Mètode per obtenir la configuració de la base de dades (XML) i
+	// parsejar-lo
 	public void getXMLConf() {
 		parser = new XMLParser();
 		parser.setPath("/databases.xml");
@@ -37,12 +51,13 @@ public class SQLQueryTesting extends JFrame {
 		parser.setTagName("database");
 	}
 
+	// Mètode per canviar de finestres
 	public void changeTo(JPanel nextPanel) {
 		getContentPane().removeAll();
 		getContentPane().add(nextPanel);
 		revalidate();
 		repaint();
-		
+
 	}
 
 }
